@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:new_mobile_otp/ui/views/country_select/country_select_view.dart';
+import 'package:new_mobile_otp/ui/views/sign_in/sign_in_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: CountrySelectView(),
+      home: SignInScreen(),
     );
   }
 }

@@ -515,7 +515,7 @@ class HomeView extends StackedView<HomeViewModel> {
                               );
                             },
                           ),
-                        SizedBox(height: 100),
+                        SizedBox(height: 200),
                       ],
                     ),
                   ),

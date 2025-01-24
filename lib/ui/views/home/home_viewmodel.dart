@@ -42,7 +42,7 @@ class HomeViewModel extends BaseViewModel {
   ScrollController profilesScrollController = ScrollController();
 
   void handleProfilesScrollView() {
-    if (profilesScrollController.position.extentAfter <= 200) {
+    if (profilesScrollController.position.extentAfter <= 100) {
       if (!isScrollEventDispatched) {
         isScrollEventDispatched = true;
       }
