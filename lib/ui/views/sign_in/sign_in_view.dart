@@ -89,6 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     prefixIcon: Icon(
                       Icons.phone,
                     ),
+                    counterText: "",
                     filled: true,
                     fillColor: Colors.white,
                     labelText: "Continue with mobile number",
@@ -165,7 +166,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).padding.bottom + 20,
+                  height: MediaQuery.of(context).padding.bottom + 40,
                 )
               ],
             ),

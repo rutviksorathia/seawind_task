@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:new_mobile_otp/models/country/country.dart';
+import 'package:new_mobile_otp/utils.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:stacked/stacked.dart';
 
@@ -46,6 +48,7 @@ class CountrySelectView extends StackedView<CountrySelectViewModel> {
               decoration: InputDecoration(
                 prefixIcon: Icon(
                   Icons.search,
+                  color: Colors.pink,
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -64,40 +67,9 @@ class CountrySelectView extends StackedView<CountrySelectViewModel> {
                   child: Column(
                     children: [
                       SizedBox(height: 20),
-                      ...viewModel.filteredItems.map((e) => GestureDetector(
-                            onTap: () => viewModel.handleCountryCardTap(e),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 40),
-                                  child: Container(
-                                    height: 200,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: ShapeDecoration(
-                                        shape: SmoothRectangleBorder(
-                                      smoothness: 1,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                    )),
-                                    child: Image.network(
-                                      e.image,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  e.title,
-                                  style: TextStyle(
-                                      color: Colors.pink,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 20),
-                              ],
-                            ),
+                      ...viewModel.filteredItems.map((e) => CountryListItem(
+                            country: e,
+                            viewModel: viewModel,
                           ))
                     ],
                   ),
@@ -126,4 +98,57 @@ class CountrySelectView extends StackedView<CountrySelectViewModel> {
     BuildContext context,
   ) =>
       CountrySelectViewModel();
+}
+
+class CountryListItem extends StatelessWidget {
+  final CountrySelectViewModel viewModel;
+  final Country country;
+
+  const CountryListItem({
+    required this.viewModel,
+    required this.country,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => viewModel.handleCountryCardTap(country),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Container(
+              height: 200,
+              clipBehavior: Clip.antiAlias,
+              decoration: ShapeDecoration(
+                  shape: SmoothRectangleBorder(
+                smoothness: 1,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              )),
+              child: Image.network(
+                country.image,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    imageLoadingBuilder(context, child, loadingProgress),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Center(
+            child: Text(
+              country.title,
+              style: TextStyle(
+                  color: Colors.pink,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:new_mobile_otp/models/city/city.dart';
 import 'package:new_mobile_otp/models/country/country.dart';
+import 'package:new_mobile_otp/utils.dart';
 import 'package:stacked/stacked.dart';
 
 import 'city_select_viewmodel.dart';
@@ -81,6 +83,7 @@ class CitySelectView extends StackedView<CitySelectViewModel> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        SizedBox(height: 10),
                         Expanded(
                           child: GridView.count(
                             crossAxisCount: 3,
@@ -89,50 +92,17 @@ class CitySelectView extends StackedView<CitySelectViewModel> {
                             mainAxisSpacing: 40.0,
                             children: <Widget>[
                               ...viewModel.filteredItems.map(
-                                (e) => GestureDetector(
-                                  onTap: () => viewModel.handleCityCardTap(e),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                            width: 1,
-                                            color: e == viewModel.selectedCity
-                                                ? Colors.pink
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Image.network(
-                                            e.image,
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 12),
-                                      GestureDetector(
-                                        onTap: () =>
-                                            viewModel.handleCityCardTap(e),
-                                        child: Text(e.title,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: e == viewModel.selectedCity
-                                                  ? Colors.pink
-                                                  : Colors.black,
-                                            )),
-                                      ),
-                                    ],
-                                  ),
+                                (e) => CityListItem(
+                                  city: e,
+                                  viewModel: viewModel,
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.bottom,
+                        )
                       ],
                     ),
                   )
@@ -223,5 +193,58 @@ class CitySelectView extends StackedView<CitySelectViewModel> {
     viewModel.fetchCities();
     // TODO: implement onViewModelReady
     super.onViewModelReady(viewModel);
+  }
+}
+
+class CityListItem extends StatelessWidget {
+  final CitySelectViewModel viewModel;
+  final City city;
+  const CityListItem({
+    required this.viewModel,
+    required this.city,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => viewModel.handleCityCardTap(city),
+      child: Column(
+        children: [
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+              border: Border.all(
+                width: 1,
+                color:
+                    city == viewModel.selectedCity ? Colors.pink : Colors.black,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(
+                city.image,
+                fit: BoxFit.fill,
+                loadingBuilder: (context, child, loadingProgress) =>
+                    imageLoadingBuilder(context, child, loadingProgress),
+              ),
+            ),
+          ),
+          SizedBox(height: 12),
+          GestureDetector(
+            onTap: () => viewModel.handleCityCardTap(city),
+            child: Text(city.title,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: city == viewModel.selectedCity
+                      ? Colors.pink
+                      : Colors.black,
+                )),
+          ),
+        ],
+      ),
+    );
   }
 }

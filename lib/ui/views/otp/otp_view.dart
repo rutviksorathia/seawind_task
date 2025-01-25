@@ -164,7 +164,7 @@ class OTPVerificationView extends ViewModelWidget<OtpVerificationScreenModel> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Enter the OTP sent to your number $mobileNumber',
+                'We\'ve send yot the verification code on +91$mobileNumber',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -275,7 +275,9 @@ class OTPVerificationView extends ViewModelWidget<OtpVerificationScreenModel> {
                   color: Colors.transparent,
                   padding: const EdgeInsets.only(bottom: 4, top: 4, left: 10),
                   child: Text(
-                    'Resend OTP',
+                    model.otpRemainingTimeInSeconds == 0
+                        ? "Resend OTP"
+                        : 'Re - send code in ',
                   ),
                 ),
               ),
@@ -285,6 +287,10 @@ class OTPVerificationView extends ViewModelWidget<OtpVerificationScreenModel> {
                   child: Center(
                     child: Text(
                       '(${model.otpRemainingTimeInSeconds.toString()})',
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),

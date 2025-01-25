@@ -31,7 +31,13 @@ class HomeViewModel extends BaseViewModel {
 
   City selectedCity;
   int activeImageIndex = 0;
-  List<String> movieCategory = ["Comedy", "Romantic", "Kid", "Gujarati"];
+  List<String> movieCategory = [
+    "Comedy",
+    "Romantic",
+    "Kid",
+    "Gujarati",
+    "Action"
+  ];
   BottomNavigationBarTab selectedTab = BottomNavigationBarTab.home;
 
   HomeViewModel({required this.selectedCity}) {
