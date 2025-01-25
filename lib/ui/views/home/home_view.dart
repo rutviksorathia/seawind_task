@@ -204,10 +204,31 @@ class HomeView extends StackedView<HomeViewModel> {
                             text: "Help & Support",
                           ),
                           SizedBox(height: 15),
-                          SideBarItem(
-                            viewModel: viewModel,
-                            icon: Icons.logout,
-                            text: "Sign Out",
+                          GestureDetector(
+                            onTap: () => {
+                              viewModel.hasDrawerShow = false,
+                              viewModel.notifyListeners(),
+                              Get.offAll(() => SignInScreen()),
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.logout,
+                                    size: 30,
+                                  ),
+                                  SizedBox(width: 20),
+                                  Text(
+                                    "Sign Out",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                           SizedBox(height: 15),
                         ],
