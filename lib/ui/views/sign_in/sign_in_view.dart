@@ -86,6 +86,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     setState(() {});
                   },
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 15.0,
+                      horizontal: 0,
+                    ),
                     prefixIcon: Icon(
                       Icons.phone,
                     ),
