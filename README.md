@@ -1,4 +1,4 @@
-# new_mobile_otp
+# seawind_task
 
 A new Flutter project.
 
