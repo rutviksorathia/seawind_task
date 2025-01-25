@@ -39,6 +39,7 @@ class HomeViewModel extends BaseViewModel {
     "Action"
   ];
   BottomNavigationBarTab selectedTab = BottomNavigationBarTab.home;
+  bool hasDrawerShow = false;
 
   HomeViewModel({required this.selectedCity}) {
     profilesScrollController.addListener(handleProfilesScrollView);
@@ -60,6 +61,11 @@ class HomeViewModel extends BaseViewModel {
 
   void postImagesIndicator(int index) {
     activeImageIndex = index;
+    notifyListeners();
+  }
+
+  void handleDrawerButtonTap() {
+    hasDrawerShow = true;
     notifyListeners();
   }
 

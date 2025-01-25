@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_mobile_otp/models/city/city.dart';
 import 'package:new_mobile_otp/models/country/country.dart';
 import 'package:new_mobile_otp/ui/views/base_page_indicator.dart';
+import 'package:new_mobile_otp/ui/views/sign_in/sign_in_view.dart';
 import 'package:smooth_corner/smooth_corner.dart';
 import 'package:stacked/stacked.dart';
 
@@ -86,7 +88,135 @@ class HomeView extends StackedView<HomeViewModel> {
                 ),
               ),
             ),
-          HomeBottomNavigationBar(viewModel: viewModel)
+          HomeBottomNavigationBar(viewModel: viewModel),
+          if (viewModel.hasDrawerShow)
+            Positioned(
+              left: 0,
+              bottom: 0,
+              top: 0,
+              child: GestureDetector(
+                onTap: () {
+                  viewModel.hasDrawerShow = false;
+                  viewModel.notifyListeners();
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  decoration: ShapeDecoration(
+                    shape: SmoothRectangleBorder(
+                      borderRadius: BorderRadius.only(),
+                      smoothness: 1,
+                    ),
+                    color: Colors.transparent,
+                  ),
+                ),
+              ),
+            ),
+          if (viewModel.hasDrawerShow)
+            Positioned(
+              right: 0,
+              bottom: 0,
+              top: 0,
+              child: AnimatedContainer(
+                curve: Curves.easeIn,
+                duration: Duration(seconds: 5),
+                width: !viewModel.hasDrawerShow
+                    ? 0
+                    : MediaQuery.of(context).size.width * 0.65,
+                decoration: ShapeDecoration(
+                  shape: SmoothRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      bottomLeft: Radius.circular(50),
+                    ),
+                    smoothness: 1,
+                  ),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 50),
+                    GestureDetector(
+                      onTap: () => {Get.offAll(() => SignInScreen())},
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                          color: Colors.pink,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 20, left: 20, right: 10, bottom: 20),
+                      child: Column(
+                        children: [
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.person,
+                            text: "My Profile",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.insert_page_break_rounded,
+                            text: "List Your Show",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.percent_outlined,
+                            text: "Offers",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.info,
+                            text: "About",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.phone_callback_outlined,
+                            text: "Contact",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.help,
+                            text: "FAQ",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.support,
+                            text: "Help & Support",
+                          ),
+                          SizedBox(height: 15),
+                          SideBarItem(
+                            viewModel: viewModel,
+                            icon: Icons.logout,
+                            text: "Sign Out",
+                          ),
+                          SizedBox(height: 15),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -560,7 +690,7 @@ class HomeAppBar extends StatelessWidget {
                     ),
                     SizedBox(width: 20),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => viewModel.handleDrawerButtonTap(),
                       child: Icon(
                         Icons.menu,
                         size: 30,
@@ -688,6 +818,47 @@ class HomeAppBar extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class SideBarItem extends StatelessWidget {
+  final HomeViewModel viewModel;
+  final IconData icon;
+  final String text;
+  const SideBarItem({
+    super.key,
+    required this.viewModel,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {
+        viewModel.hasDrawerShow = false,
+        viewModel.notifyListeners(),
+      },
+      child: Container(
+        color: Colors.transparent,
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 30,
+            ),
+            SizedBox(width: 20),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
